@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COA Question Bank – GTU BE Sem 4</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --bg4: #252d40;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --muted: #8a90a2;
+    --accent: #5b8def;
+    --accent2: #7c5ce8;
+    --gold: #f4c55a;
+    --teal: #38d9b0;
+    --coral: #ff6b6b;
+    --green: #6bcb77;
+    --tag-diagram: #1a3a6e;
+    --tag-diagram-text: #7ab3f7;
+    --tag-example: #2d1f5e;
+    --tag-example-text: #b49ef7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #0d1b3e 0%, #1a0e3a 50%, #0d2b2a 100%); padding: 32px 24px 28px; text-align: center; border-bottom: 1px solid var(--border2); position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(91,141,239,0.12) 0%, transparent 70%); pointer-events: none; }
+  .header h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .header .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .header .meta { display: flex; justify-content: center; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .header .meta-item { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid var(--border2); padding: 5px 14px; border-radius: 20px; font-size: 12px; color: var(--muted); }
+  .header .meta-item span { color: var(--text); font-weight: 600; }
+
+  /* Search & Filter Bar */
+  .controls { padding: 16px 20px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: sticky; top: 0; z-index: 50; }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-wrap input { width: 100%; padding: 8px 12px 8px 34px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-size: 13px; outline: none; transition: border-color 0.2s; }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap::before { content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 13px; }
+  .filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border2); background: var(--bg3); color: var(--muted); font-size: 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .filter-btn.active.diagram { background: var(--tag-diagram); border-color: var(--tag-diagram-text); color: var(--tag-diagram-text); }
+  .filter-btn.active.example { background: var(--tag-example); border-color: var(--tag-example-text); color: var(--tag-example-text); }
+  .result-count { font-size: 12px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+  /* Main Layout */
+  .main { display: flex; gap: 0; }
+
+  /* Unit Sidebar */
+  .sidebar { width: 220px; min-width: 220px; background: var(--bg2); border-right: 1px solid var(--border); padding: 16px 0; height: calc(100vh - 145px); overflow-y: auto; position: sticky; top: 95px; }
+  .sidebar-title { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; padding: 0 16px 8px; }
+  .unit-btn { display: block; width: 100%; text-align: left; padding: 8px 16px; background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; transition: all 0.15s; border-left: 2px solid transparent; line-height: 1.4; }
+  .unit-btn:hover { background: var(--bg3); color: var(--text); }
+  .unit-btn.active { background: rgba(91,141,239,0.1); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .unit-btn .u-num { display: inline-block; background: var(--bg4); color: var(--muted); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-right: 6px; min-width: 24px; text-align: center; }
+
+  /* Content */
+  .content { flex: 1; overflow-y: auto; padding: 20px; }
+
+  /* Unit Section */
+  .unit-section { margin-bottom: 36px; }
+  .unit-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border2); }
+  .unit-badge { background: var(--accent2); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
+  .unit-title { font-size: 16px; font-weight: 700; color: #fff; }
+  .unit-weight { margin-left: auto; font-size: 11px; color: var(--muted); background: var(--bg3); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+
+  /* Topic Group */
+  .topic-group { margin-bottom: 20px; }
+  .topic-label { font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .topic-label::before { content: ''; display: inline-block; width: 16px; height: 1px; background: var(--teal); }
+
+  /* Question Card */
+  .q-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; transition: border-color 0.15s; position: relative; }
+  .q-card:hover { border-color: var(--border2); }
+  .q-card.repeated-2 { border-left: 3px solid var(--gold); }
+  .q-card.repeated-3 { border-left: 3px solid var(--teal); }
+  .q-card.repeated-4 { border-left: 3px solid var(--coral); background: rgba(255,107,107,0.04); }
+  .q-text { font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 8px; }
+  .q-footer { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; border: 1px solid; }
+  .tag.diagram { background: var(--tag-diagram); color: var(--tag-diagram-text); border-color: rgba(122,179,247,0.3); }
+  .tag.example { background: var(--tag-example); color: var(--tag-example-text); border-color: rgba(180,158,247,0.3); }
+  .paper-chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: 'Courier New', monospace; background: var(--bg4); color: var(--muted); border: 1px solid var(--border); cursor: default; }
+  .paper-chip:hover { color: var(--text); }
+  .freq-badge { margin-left: auto; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .freq-4 { background: rgba(255,107,107,0.15); color: var(--coral); border: 1px solid rgba(255,107,107,0.3); }
+  .freq-3 { background: rgba(56,217,176,0.12); color: var(--teal); border: 1px solid rgba(56,217,176,0.3); }
+  .freq-2 { background: rgba(244,197,90,0.12); color: var(--gold); border: 1px solid rgba(244,197,90,0.3); }
+
+  /* Summary Section */
+  .summary-section { background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+  .summary-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .summary-title::before { content: '🏆'; }
+
+  /* Summary Table */
+  .sum-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .sum-table th { background: var(--bg4); color: var(--muted); font-weight: 600; padding: 8px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sum-table th:first-child { border-radius: 6px 0 0 0; }
+  .sum-table th:last-child { border-radius: 0 6px 0 0; }
+  .sum-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .sum-table tr:last-child td { border-bottom: none; }
+  .sum-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .rank-num { display: inline-block; width: 24px; height: 24px; border-radius: 50%; background: var(--bg4); color: var(--muted); font-size: 11px; font-weight: 700; text-align: center; line-height: 24px; }
+  .rank-num.top3 { background: var(--gold); color: #000; }
+
+  /* Priority Section */
+  .priority-section { background: var(--bg2); border: 1px solid rgba(56,217,176,0.2); border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+  .priority-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .priority-title::before { content: '⚡'; }
+  .priority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .priority-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .priority-card-title { font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .priority-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 12px; color: var(--text); line-height: 1.4; }
+  .priority-item::before { content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+  /* Hide class */
+  .hidden { display: none !important; }
+
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .priority-grid { grid-template-columns: 1fr; }
+    .header .meta { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Computer Organization &amp; Architecture — Question Bank</h1>
+  <div class="sub">GTU BE Semester 4 · Subject Code: 3140707 / BE04000251</div>
+  <div class="meta">
+    <div class="meta-item">📄 Papers: <span>8 papers (S2022–W2025)</span></div>
+    <div class="meta-item">❓ Questions: <span id="total-q">Loading…</span></div>
+    <div class="meta-item">📅 Years: <span>2022 – 2025</span></div>
+    <div class="meta-item">🎯 Total Marks: <span>70M (Theory ESE)</span></div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search questions, topics, keywords…" oninput="applyFilters()">
+  </div>
+  <div class="filter-btns">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn diagram" onclick="setFilter('diagram',this)">[DIAGRAM]</button>
+    <button class="filter-btn example" onclick="setFilter('example',this)">[EXAMPLE]</button>
+    <button class="filter-btn" onclick="setFilter('repeated',this)">🔁 Repeated</button>
+    <button class="filter-btn" onclick="setFilter('7m',this)">7M Only</button>
+    <button class="filter-btn" onclick="setFilter('summary',this)">📊 Summary</button>
+  </div>
+  <span class="result-count" id="result-count"></span>
+</div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-title">Units</div>
+    <button class="unit-btn active" onclick="scrollToUnit('all')">📋 All Units</button>
+    <button class="unit-btn" onclick="scrollToUnit('u1')"><span class="u-num">U1</span> Structure of Computers</button>
+    <button class="unit-btn" onclick="scrollToUnit('u2')"><span class="u-num">U2</span> Register Transfer</button>
+    <button class="unit-btn" onclick="scrollToUnit('u3')"><span class="u-num">U3</span> Basic Computer Design</button>
+    <button class="unit-btn" onclick="scrollToUnit('u4')"><span class="u-num">U4</span> Assembly Language</button>
+    <button class="unit-btn" onclick="scrollToUnit('u5')"><span class="u-num">U5</span> Microprogrammed Control</button>
+    <button class="unit-btn" onclick="scrollToUnit('u6')"><span class="u-num">U6</span> CPU</button>
+    <button class="unit-btn" onclick="scrollToUnit('u7')"><span class="u-num">U7</span> Pipeline &amp; Vector</button>
+    <button class="unit-btn" onclick="scrollToUnit('u8')"><span class="u-num">U8</span> I/O Organization</button>
+    <button class="unit-btn" onclick="scrollToUnit('u9')"><span class="u-num">U9</span> Memory Organization</button>
+    <button class="unit-btn" onclick="scrollToUnit('u10')"><span class="u-num">U10</span> Computer Arithmetic</button>
+    <button class="unit-btn" onclick="scrollToUnit('u11')"><span class="u-num">U11</span> Multiprocessors</button>
+    <button class="unit-btn" onclick="scrollToUnit('summary')"><span class="u-num">★</span> Summary</button>
+  </div>
+
+  <div class="content" id="main-content">
+    <!-- Summary will be injected here by JS -->
+  </div>
+</div>
+
+<script>
+const DATA = {
+  units: [
+    {
+      id: "u1", num: 1, name: "Structure of Computers", weight: "5%",
+      topics: [
+        { name: "Data Representation & Number Systems", questions: [
+          { text: "Explain signed representation of integers. Write (–12)₁₀ in 8-bit binary using: (i) Signed magnitude (ii) Signed 1's complement (iii) Signed 2's complement", tags: ["EXAMPLE"], papers: ["W2024 Q1(a) – 3M"], freq: 1 },
+          { text: "What is the binary and decimal equivalent of F8 hexadecimal value?", tags: [], papers: ["S2022 Q1(a) – 3M"], freq: 1 },
+          { text: "Show different ways to represent fixed-point positive integers including zero", tags: [], papers: ["W2023 Q1(b) – 4M"], freq: 1 },
+          { text: "Convert hexadecimal number 4A into decimal, octal and binary", tags: ["EXAMPLE"], papers: ["S2025 Q3(a)OR – 3M"], freq: 1 },
+          { text: "Write steps for two n-digit numbers subtraction in base r", tags: [], papers: ["S2022 Q1(b) – 4M"], freq: 1 },
+        ]},
+        { name: "Computer Structure", questions: [
+          { text: "Draw the block diagram of a hypothetical basic computer", tags: ["DIAGRAM"], papers: ["W2023 Q1(a) – 3M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u2", num: 2, name: "Register Transfer & Micro-operations", weight: "10%",
+      topics: [
+        { name: "Register Transfer Language & Bus", questions: [
+          { text: "Explain the Register Transfer Language (RTL) with block diagram", tags: ["DIAGRAM"], papers: ["S2025 Q1(a) – 3M"], freq: 1 },
+          { text: "Define RTL. Give an example of register transfer of data through accumulator", tags: ["EXAMPLE"], papers: ["S2024 Q1(a) – 3M"], freq: 1 },
+          { text: "Explain register transfer using block diagram and timing diagram", tags: ["DIAGRAM"], papers: ["S2022 Q3(c) – 7M"], freq: 1 },
+          { text: "Draw and explain Common Bus System for basic computer registers", tags: ["DIAGRAM"], papers: ["W2022 Q1(b) – 4M", "S2025 Q2(c) – 7M"], freq: 2 },
+          { text: "Explain three-state bus buffers / Draw block diagram of 4-bit combinational circuit shifter", tags: ["DIAGRAM"], papers: ["W2022 Q1(a) – 3M", "S2023 Q3(b)OR – 4M", "S2025 Q1(b) – 4M"], freq: 3 },
+        ]},
+        { name: "Micro-operations", questions: [
+          { text: "State and Explain any seven logic micro operations", tags: [], papers: ["S2022 Q2(c)OR – 7M"], freq: 1 },
+          { text: "What is arithmetic micro operation?", tags: [], papers: ["S2022 Q2(a) – 3M"], freq: 1 },
+          { text: "Explain shift micro operations and draw 4-bit combinational circuit shifter", tags: ["DIAGRAM"], papers: ["S2025 Q1(c) – 7M"], freq: 1 },
+          { text: "Explain any two shift micro-operations with examples", tags: ["EXAMPLE"], papers: ["W2025 Q1(b) – 4M"], freq: 1 },
+          { text: "Draw and explain 4-bit binary adder / 4-bit adder–subtractor circuit", tags: ["DIAGRAM"], papers: ["S2022 Q2(c) – 7M", "S2023 Q1(b) – 4M", "W2024 Q2(a) – 3M"], freq: 3 },
+          { text: "Draw a 4-bit incrementer circuit using full adder", tags: ["DIAGRAM"], papers: ["W2025 Q3(b) – 4M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u3", num: 3, name: "Basic Computer Organization & Design", weight: "15%",
+      topics: [
+        { name: "Computer Registers", questions: [
+          { text: "List all registers of Basic Computer with symbolic name, size and functionality", tags: [], papers: ["S2022 Q3(a) – 3M", "W2022 Q2(a) – 3M", "S2023 Q1(a) – 3M", "W2024 Q1(b) – 4M"], freq: 4 },
+          { text: "List and explain any three register reference instructions", tags: [], papers: ["S2025 Q2(a) – 3M"], freq: 1 },
+          { text: "Explain register reference instruction format", tags: [], papers: ["S2022 Q3(b) – 4M"], freq: 1 },
+        ]},
+        { name: "Memory Reference Instructions", questions: [
+          { text: "List and explain Memory Reference Instructions in detail", tags: [], papers: ["S2022 Q1(c) – 7M", "S2024 Q2(b) – 4M", "W2024 Q1(c) – 7M", "W2025 Q1(c) – 7M"], freq: 4 },
+          { text: "Use BSA and BUN instruction with example and diagram", tags: ["EXAMPLE", "DIAGRAM"], papers: ["W2022 Q3(a) – 3M", "W2023 Q4(b) – 4M"], freq: 2 },
+          { text: "Explain any four input–output reference instructions", tags: [], papers: ["S2022 Q3(c)OR – 7M"], freq: 1 },
+          { text: "Interpret: INP, ISZ and LDA instructions", tags: [], papers: ["W2022 Q4(a)OR – 3M"], freq: 1 },
+          { text: "Show the working of LDA instruction using RTL", tags: [], papers: ["W2023 Q4(a)OR – 3M"], freq: 1 },
+          { text: "Write sequence of microoperations to execute AND and STA instructions", tags: [], papers: ["S2023 Q2(a) – 3M"], freq: 1 },
+          { text: "Explain CLA, ISZ and CMA instructions", tags: [], papers: ["S2024 Q5(a)OR – 3M"], freq: 1 },
+          { text: "Calculate and show number of clock cycles required to execute BSA instruction", tags: [], papers: ["W2023 Q4(a) – 3M"], freq: 1 },
+        ]},
+        { name: "Timing, Control & Instruction Cycle", questions: [
+          { text: "Explain Instruction Cycle with flowchart", tags: ["DIAGRAM"], papers: ["W2022 Q2(b) – 4M", "S2024 Q1(c) – 7M", "S2025 Q3(b) – 4M"], freq: 3 },
+          { text: "Describe how control unit determines instruction type after decoding — flowchart for instruction cycle", tags: ["DIAGRAM"], papers: ["W2022 Q3(c) – 7M"], freq: 1 },
+          { text: "Explain the basic working principle of the Control Unit with timing diagram", tags: ["DIAGRAM"], papers: ["S2025 Q2(c)OR – 7M", "W2025 Q2(c) – 7M"], freq: 2 },
+          { text: "Draw and explain control unit diagram for basic computer", tags: ["DIAGRAM"], papers: ["S2022 Q3(a)OR – 3M"], freq: 1 },
+          { text: "What is the role of sequence counter (SC) in control unit? Explain with its three inputs", tags: [], papers: ["W2022 Q1(c) – 7M"], freq: 1 },
+          { text: "What is an Interrupt Cycle? Draw and explain flowchart of it", tags: ["DIAGRAM"], papers: ["S2025 Q3(c)OR – 7M", "W2025 Q2(c)OR – 7M"], freq: 2 },
+          { text: "Explain functionality of flags used in Basic Computer", tags: [], papers: ["W2024 Q4(a)OR – 3M"], freq: 1 },
+          { text: "Explain status bit conditions with neat diagram", tags: ["DIAGRAM"], papers: ["S2023 Q5(b) – 4M", "S2025 Q5(b) – 4M"], freq: 2 },
+        ]}
+      ]
+    },
+    {
+      id: "u4", num: 4, name: "Assembly Language Programming", weight: "10%",
+      topics: [
+        { name: "Assembly Programs", questions: [
+          { text: "Write assembly language program to add two numbers", tags: [], papers: ["S2022 Q4(b) – 4M"], freq: 1 },
+          { text: "Write assembly language program to subtract one number from another", tags: [], papers: ["S2022 Q4(b)OR – 4M", "S2023 Q2(b) – 4M"], freq: 2 },
+          { text: "Write assembly language program to multiply two numbers", tags: [], papers: ["S2022 Q4(c) – 7M"], freq: 1 },
+          { text: "Write assembly level program to find average of 10 numbers stored at consecutive memory locations", tags: [], papers: ["S2025 Q3(c) – 7M"], freq: 1 },
+          { text: "Write assembly level program for addition of 50 numbers / add 50 numbers using a loop", tags: [], papers: ["W2022 Q4(b) – 4M", "W2024 Q2(b) – 4M"], freq: 2 },
+          { text: "Write assembly level program to move one block of data to another location", tags: [], papers: ["W2022 Q4(b)OR – 4M"], freq: 1 },
+          { text: "Write assembly language program to add two double precision numbers", tags: [], papers: ["S2025 Q4(b) – 4M"], freq: 1 },
+          { text: "Write a program in assembly language to multiply two numbers in registers B and C using only ADD instruction", tags: [], papers: ["W2023 Q4(b)OR – 4M"], freq: 1 },
+          { text: "Write two address, one address and zero address instructions for: X = (A+B)*(C–D/E)+F*G", tags: ["EXAMPLE"], papers: ["S2023 Q2(c) – 7M"], freq: 1 },
+          { text: "Write three address and two address instructions for: X = (A*B/C)+(D/E). Discuss advantages and limitations of both", tags: ["EXAMPLE"], papers: ["W2024 Q2(c)OR – 7M"], freq: 1 },
+          { text: "Criticize three-address instructions and zero-address instructions with common example", tags: ["EXAMPLE"], papers: ["W2022 Q3(b) – 4M"], freq: 1 },
+          { text: "What is difference between two address and three address instructions?", tags: [], papers: ["S2022 Q5(b) – 4M"], freq: 1 },
+        ]},
+        { name: "Assembler & Subroutines", questions: [
+          { text: "Draw flowchart of first pass assembler and explain", tags: ["DIAGRAM"], papers: ["S2022 Q4(a) – 3M", "W2022 Q4(c) – 7M", "S2023 Q3(b) – 4M", "S2024 Q5(c)OR – 7M"], freq: 4 },
+          { text: "Explain the working of Second Pass Assembler with its flowchart", tags: ["DIAGRAM"], papers: ["S2025 Q4(c) – 7M"], freq: 1 },
+          { text: "What is an assembler? Explain basic computer's assembler with flowcharts", tags: ["DIAGRAM"], papers: ["W2025 Q1(c) – 7M"], freq: 1 },
+          { text: "Explain subroutine call and return with micro-operation / Write short note on subroutine", tags: [], papers: ["S2024 Q3(a) – 3M", "S2025 Q4(b)OR – 4M"], freq: 2 },
+        ]}
+      ]
+    },
+    {
+      id: "u5", num: 5, name: "Micro-programmed Control Organization", weight: "5%",
+      topics: [
+        { name: "Control Memory & Address Sequencing", questions: [
+          { text: "What is address sequencing? / Address sequencing capabilities required in control memory", tags: [], papers: ["S2022 Q4(a)OR – 3M", "W2023 Q2(a) – 3M", "W2024 Q3(b) – 4M", "S2025 Q4(a)OR – 3M"], freq: 4 },
+          { text: "Discuss microprogrammed control organization with neat diagram", tags: ["DIAGRAM"], papers: ["S2023 Q4(c)OR – 7M", "S2024 Q2(c) – 7M"], freq: 2 },
+          { text: "Define microinstruction; identify different types of 16-bit instruction formats for basic computer", tags: [], papers: ["W2022 Q2(c)OR – 7M"], freq: 1 },
+          { text: "Sketch Microinstruction code format. Quote BR and CD field in brief", tags: [], papers: ["W2022 Q5(a)OR – 3M"], freq: 1 },
+          { text: "Analyze the 20-bit microinstruction code format with 7-bit address", tags: [], papers: ["W2023 Q3(a)OR – 3M"], freq: 1 },
+          { text: "Explain Fetch subroutine of microprogrammed control", tags: [], papers: ["W2024 Q3(b)OR – 4M", "W2025 Q3(b)OR – 4M"], freq: 2 },
+        ]}
+      ]
+    },
+    {
+      id: "u6", num: 6, name: "Central Processing Unit", weight: "15%",
+      topics: [
+        { name: "Instruction Formats", questions: [
+          { text: "Explain instruction formats with its types", tags: [], papers: ["S2024 Q1(b) – 4M", "S2025 Q2(b) – 4M"], freq: 2 },
+        ]},
+        { name: "Addressing Modes", questions: [
+          { text: "Enlist various addressing modes. Explain any five with example", tags: ["EXAMPLE"], papers: ["S2023 Q1(c) – 7M"], freq: 1 },
+          { text: "What is addressing modes? List and explain any five addressing modes with proper example(s)", tags: ["EXAMPLE"], papers: ["S2024 Q3(c) – 7M"], freq: 1 },
+          { text: "Explain any seven addressing modes with appropriate example", tags: ["EXAMPLE"], papers: ["W2025 Q3(c) – 7M"], freq: 1 },
+          { text: "Explain any three addressing modes with suitable example", tags: ["EXAMPLE"], papers: ["W2024 Q4(a) – 3M"], freq: 1 },
+          { text: "Explain any 4 addressing modes with example", tags: ["EXAMPLE"], papers: ["S2025 Q3(b)OR – 4M"], freq: 1 },
+          { text: "Summarize addressing modes: Implied mode, Register mode — with example", tags: ["EXAMPLE"], papers: ["W2022 Q2(b) – 4M"], freq: 1 },
+          { text: "What is difference between direct and indirect addressing mode?", tags: [], papers: ["S2022 Q5(a)OR – 3M"], freq: 1 },
+        ]},
+        { name: "Stack & Register Organization", questions: [
+          { text: "Explain register stack / Explain push and pop micro-operations", tags: [], papers: ["S2022 Q5(a) – 3M", "S2024 Q4(a) – 3M", "S2025 Q4(a) – 3M"], freq: 3 },
+          { text: "Explain register stack and memory stack organizations", tags: [], papers: ["W2024 Q2(c) – 7M"], freq: 1 },
+          { text: "State the differences between register stack and memory stack", tags: [], papers: ["S2024 Q3(b) – 4M"], freq: 1 },
+          { text: "Explain importance of overlapped register window; compute window size and total registers", tags: [], papers: ["W2025 Q3(c)OR – 7M"], freq: 1 },
+        ]},
+        { name: "RISC & CISC", questions: [
+          { text: "Differentiate RISC and CISC architecture", tags: [], papers: ["W2022 Q3(b)OR – 4M", "W2024 Q3(c) – 7M", "S2025 Q5(b)OR – 4M", "W2025 Q2(a) – 3M"], freq: 4 },
+        ]},
+        { name: "Subroutines & Program Control", questions: [
+          { text: "What is the fundamental difference between subroutine call and interrupt request? Analyze common memory stack for both", tags: [], papers: ["W2023 Q4(c) – 7M"], freq: 1 },
+          { text: "A subroutine return address in index register vs stack — analyze advantages and disadvantages", tags: [], papers: ["W2023 Q4(c)OR – 7M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u7", num: 7, name: "Pipeline & Vector Processing", weight: "5%",
+      topics: [
+        { name: "Pipelining Concepts", questions: [
+          { text: "Explain pipelining technique. Draw general structure of four-segment pipeline", tags: ["DIAGRAM"], papers: ["S2024 Q3(c)OR – 7M"], freq: 1 },
+          { text: "Demonstrate four-segment instruction pipeline in detail", tags: ["DIAGRAM"], papers: ["W2022 Q5(c) – 7M"], freq: 1 },
+          { text: "Explain 5-stage instruction pipeline with example", tags: ["EXAMPLE", "DIAGRAM"], papers: ["W2025 Q2(b) – 4M"], freq: 1 },
+          { text: "Explain arithmetic pipeline", tags: [], papers: ["S2022 Q5(b)OR – 4M"], freq: 1 },
+          { text: "Specify pipeline configuration for (Aᵢ+Bᵢ)*(Cᵢ+Dᵢ). List register contents for i=1 to 4", tags: ["EXAMPLE"], papers: ["S2023 Q4(b)OR – 4M"], freq: 1 },
+          { text: "What is Memory Interleaving?", tags: [], papers: ["S2024 Q3(a)OR – 3M", "S2025 Q5(a)OR – 3M"], freq: 2 },
+        ]},
+        { name: "Pipeline Conflicts & Hazards", questions: [
+          { text: "Explain pipeline conflicts / List and explain conflicts that occur in an instruction pipeline", tags: [], papers: ["S2023 Q3(a)OR – 3M", "W2024 Q3(a) – 3M", "W2025 Q3(a)OR – 3M"], freq: 3 },
+          { text: "What is a data dependency conflict in instruction pipeline? Recommend solutions", tags: [], papers: ["W2022 Q5(b) – 4M"], freq: 1 },
+        ]},
+        { name: "Flynn's Classification", questions: [
+          { text: "Elaborate Flynn's classification scheme with proper diagram", tags: ["DIAGRAM"], papers: ["W2022 Q5(c)OR – 7M"], freq: 1 },
+          { text: "Explain Flynn's classification for computers", tags: [], papers: ["S2023 Q3(a) – 3M", "S2025 Q5(c)OR – 7M", "W2025 Q3(a) – 3M"], freq: 3 },
+        ]},
+        { name: "Vector Processing & Array Processors", questions: [
+          { text: "Write a brief note on SIMD array processor", tags: [], papers: ["S2023 Q4(b) – 4M", "W2024 Q3(a)OR – 3M"], freq: 2 },
+        ]}
+      ]
+    },
+    {
+      id: "u8", num: 8, name: "Input-Output Organization", weight: "10%",
+      topics: [
+        { name: "Asynchronous Data Transfer", questions: [
+          { text: "Write a note on asynchronous data transfer", tags: [], papers: ["S2022 Q5(c) – 7M", "S2025 Q5(c) – 7M"], freq: 2 },
+          { text: "What is handshaking? Explain source-initiated data transfer using handshaking with neat diagram", tags: ["DIAGRAM"], papers: ["W2024 Q4(b)OR – 4M", "W2025 Q4(a)OR – 3M"], freq: 2 },
+          { text: "Differentiate isolated I/O and memory mapped I/O", tags: [], papers: ["W2024 Q4(b) – 4M"], freq: 1 },
+        ]},
+        { name: "Interrupts & DMA", questions: [
+          { text: "What is an Interrupt? Explain interrupt cycle with flowchart", tags: ["DIAGRAM"], papers: ["W2025 Q2(c)OR – 7M"], freq: 1 },
+          { text: "Explain various types of interrupts", tags: [], papers: ["S2025 Q5(a) – 3M"], freq: 1 },
+          { text: "Explain DMA / List modes of transfer. Formulate Direct Memory Access technique in detail", tags: [], papers: ["S2023 Q4(a) – 3M", "W2022 Q4(c)OR – 7M"], freq: 2 },
+          { text: "Briefly explain Daisy-Chaining priority interrupt", tags: [], papers: ["W2023 Q5 – 3M", "W2024 Q5(b) – 4M", "W2025 Q4(a) – 3M"], freq: 3 },
+          { text: "Write a short note on DMA", tags: [], papers: ["W2025 Q4(b) – 4M"], freq: 1 },
+        ]},
+        { name: "I/O Processor", questions: [
+          { text: "Elaborate CPU-IOP communication", tags: [], papers: ["S2023 Q3(c) – 7M"], freq: 1 },
+          { text: "Prepare flowchart of CPU-IOP communication", tags: ["DIAGRAM"], papers: ["W2022 Q3(a)OR – 3M"], freq: 1 },
+          { text: "Write a short note on input-output processor", tags: [], papers: ["W2025 Q4(b)OR – 4M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u9", num: 9, name: "Memory Organization", weight: "10%",
+      topics: [
+        { name: "Memory Hierarchy", questions: [
+          { text: "Discuss various memory hierarchies / Draw and discuss memory hierarchy in a computer system", tags: ["DIAGRAM"], papers: ["W2022 Q4(a) – 3M", "W2023 Q2(c) – 7M", "S2023 Q4(a)OR – 3M", "S2024 Q4(b) – 4M"], freq: 4 },
+          { text: "Compare SRAM and DRAM / Differentiate static RAM and Dynamic RAM", tags: [], papers: ["S2024 Q4(b)OR – 4M", "W2024 Q5(a) – 3M"], freq: 2 },
+        ]},
+        { name: "Cache Memory", questions: [
+          { text: "What is cache memory? Interpret direct addressing mapping with diagram", tags: ["DIAGRAM"], papers: ["W2022 Q3(c)OR – 7M"], freq: 1 },
+          { text: "Explain any two types of mapping procedures for cache memory organization", tags: [], papers: ["S2023 Q5(c)OR – 7M"], freq: 1 },
+          { text: "Discuss associative mapping and direct mapping in cache memory organization", tags: [], papers: ["S2024 Q4(c) – 7M"], freq: 1 },
+          { text: "Explain associative, set-associative and direct mapping of cache memory", tags: [], papers: ["W2024 Q4(c) – 7M"], freq: 1 },
+          { text: "List various cache mappings. Explain any one in detail", tags: [], papers: ["W2025 Q5(c) – 7M"], freq: 1 },
+          { text: "Compare: Write-through cache vs Write-back cache; Spatial locality vs Temporal locality", tags: [], papers: ["W2022 Q5(b)OR – 4M"], freq: 1 },
+          { text: "Explain cache coherence problem in detail / Discuss cache coherence problem and its solutions", tags: [], papers: ["S2023 Q5(c) – 7M", "S2024 Q5(c) – 7M", "W2024 Q5(c)OR – 7M", "W2025 Q5(a) – 3M"], freq: 4 },
+        ]},
+        { name: "Associative & Content Addressable Memory", questions: [
+          { text: "Write a detailed note on associative memory / Explain the role of associative memory", tags: [], papers: ["S2023 Q3(c)OR – 7M", "S2024 Q4(a) – 3M"], freq: 2 },
+          { text: "Write a short note on Content Addressable Memory", tags: [], papers: ["S2024 Q4(a)OR – 3M", "W2024 Q5(b)OR – 4M"], freq: 2 },
+        ]},
+        { name: "Virtual Memory & Address Translation", questions: [
+          { text: "Write a short note on virtual memory / Explain virtual memory and address mapping in detail", tags: [], papers: ["S2022 Q5(c)OR – 7M", "S2024 Q4(c)OR – 7M", "W2024 Q4(c)OR – 7M", "W2025 Q5(c)OR – 7M"], freq: 4 },
+          { text: "Explain paging and address translation with example", tags: ["EXAMPLE"], papers: ["S2024 Q4(c)OR – 7M"], freq: 1 },
+          { text: "Explain the concept of Address Translation and working of Translation Look-Aside Buffer (TLB)", tags: [], papers: ["W2023 Q2(c)OR – 7M"], freq: 1 },
+        ]},
+        { name: "Main Memory Design Problems", questions: [
+          { text: "RAM with 8-bit data bus, 2 chip select lines, 7-bit address: calculate chips needed for 512 bytes", tags: [], papers: ["W2023 Q5(a) – 3M"], freq: 1 },
+          { text: "Calculate size of ROM chip: 8-bit data bus, 2 chip select lines, 9-bit address bus", tags: [], papers: ["W2023 Q5(a)OR – 3M"], freq: 1 },
+          { text: "How many 128×8 RAM chips are needed to provide 4096 bytes?", tags: [], papers: ["W2023 Q5(b)OR – 4M"], freq: 1 },
+          { text: "Address space: 24 bits; memory space: 16 bits. How many words in each space?", tags: [], papers: ["W2023 Q5(b) – 4M"], freq: 1 },
+          { text: "Instruction word format problem: 256K×32-bit memory, 4-part instruction — find bits for opcode, register code, address part; draw format", tags: ["DIAGRAM"], papers: ["S2023 Q4(c) – 7M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u10", num: 10, name: "Computer Arithmetic", weight: "10%",
+      topics: [
+        { name: "Booth's Algorithm & Multiplication", questions: [
+          { text: "Explain Booth's multiplication algorithm with example", tags: ["EXAMPLE"], papers: ["S2022 Q4(c)OR – 7M", "W2025 Q4(c) – 7M"], freq: 2 },
+          { text: "Explain using flowchart the working of Booth's multiplication algorithm for signed 2's complement numbers", tags: ["DIAGRAM"], papers: ["W2023 Q1(c) – 7M"], freq: 1 },
+          { text: "Apply Booth algorithm for multiplying A=+6 and B=+7", tags: ["EXAMPLE"], papers: ["S2023 Q2(c)OR – 7M"], freq: 1 },
+          { text: "Draw and explain flowchart for multiplication program", tags: ["DIAGRAM"], papers: ["S2025 Q4(c)OR – 7M"], freq: 1 },
+          { text: "Draw and explain flowchart for floating point multiplication", tags: ["DIAGRAM"], papers: ["W2025 Q4(c)OR – 7M"], freq: 1 },
+        ]},
+        { name: "ALU & Arithmetic Operations", questions: [
+          { text: "Explain any four Arithmetic operations carried out by ALU", tags: [], papers: ["W2023 Q2(b) – 4M"], freq: 1 },
+          { text: "Perform A–B operation using signed magnitude. A=+11, B=–6", tags: ["EXAMPLE"], papers: ["S2023 Q5(a) – 3M"], freq: 1 },
+          { text: "Explain addition and subtraction with signed magnitude data. List hardware required", tags: [], papers: ["W2024 Q3(c)OR – 7M"], freq: 1 },
+          { text: "Difference between arithmetic shift left and logical shift left with proper illustration", tags: ["EXAMPLE"], papers: ["S2023 Q5(a)OR – 3M"], freq: 1 },
+          { text: "Apply JK flip-flops to design a 3-bit synchronous binary counter", tags: ["DIAGRAM"], papers: ["W2023 Q3(c) – 7M"], freq: 1 },
+          { text: "Apply combinational circuits to design a 4-bit adder/subtracter using 2's complement", tags: ["DIAGRAM"], papers: ["W2023 Q3(c)OR – 7M"], freq: 1 },
+          { text: "What are status register bits? Draw and explain block diagram showing all status registers", tags: ["DIAGRAM"], papers: ["S2025 Q5(b) – 4M"], freq: 1 },
+        ]}
+      ]
+    },
+    {
+      id: "u11", num: 11, name: "Multiprocessors", weight: "5%",
+      topics: [
+        { name: "Multiprocessor Characteristics & Interconnection", questions: [
+          { text: "Compare tightly coupled and loosely coupled systems", tags: [], papers: ["S2024 Q5(a) – 3M", "W2024 Q5(a)OR – 3M", "W2025 Q5(b) – 4M"], freq: 3 },
+          { text: "Discuss various Dynamic Arbitration Algorithms for Interprocessor Arbitration", tags: [], papers: ["W2023 Q5(c) – 7M"], freq: 1 },
+          { text: "Discuss in brief the interconnection structures of a multiprocessor system", tags: [], papers: ["W2023 Q5(c)OR – 7M"], freq: 1 },
+          { text: "Write a note on crossbar switch interconnection structure with block diagram", tags: ["DIAGRAM"], papers: ["S2024 Q5(b) – 4M"], freq: 1 },
+          { text: "Explain any three multiprocessor interconnection structures", tags: [], papers: ["W2024 Q5(c) – 7M"], freq: 1 },
+          { text: "Explain the 8×8 omega switching network with diagram", tags: ["DIAGRAM"], papers: ["W2025 Q5(b)OR – 4M"], freq: 1 },
+          { text: "What are the characteristics of multiprocessors?", tags: [], papers: ["W2025 Q5(a)OR – 3M"], freq: 1 },
+        ]}
+      ]
+    }
+  ],
+
+  mostRepeated: [
+    { rank: 1, q: "List all registers of Basic Computer with symbolic name, size and functionality", tags: [], freq: "4x", years: "S2022, W2022, S2023, W2024", marks: "3M, 4M" },
+    { rank: 2, q: "List and explain Memory Reference Instructions in detail", tags: [], freq: "4x", years: "S2022, S2024, W2024, W2025", marks: "4M, 7M" },
+    { rank: 3, q: "Draw flowchart of first pass assembler and explain", tags: ["DIAGRAM"], freq: "4x", years: "S2022, W2022, S2023, S2024", marks: "3M–7M" },
+    { rank: 4, q: "What is address sequencing? / Address sequencing capabilities required in control memory", tags: [], freq: "4x", years: "S2022, W2023, W2024, S2025", marks: "3M, 4M" },
+    { rank: 5, q: "Differentiate RISC and CISC architecture", tags: [], freq: "4x", years: "W2022, W2024, S2025, W2025", marks: "3M, 4M, 7M" },
+    { rank: 6, q: "Discuss memory hierarchy / Draw and discuss memory hierarchy", tags: ["DIAGRAM"], freq: "4x", years: "W2022, W2023, S2023, S2024", marks: "3M, 4M, 7M" },
+    { rank: 7, q: "Explain cache coherence problem and its solutions", tags: [], freq: "4x", years: "S2023, S2024, W2024, W2025", marks: "3M–7M" },
+    { rank: 8, q: "Write a short note on virtual memory / Explain virtual memory and address mapping", tags: [], freq: "4x", years: "S2022, S2024, W2024, W2025", marks: "Mostly 7M" },
+    { rank: 9, q: "Explain any addressing modes (3/4/5/7 modes) with example", tags: ["EXAMPLE"], freq: "4x", years: "S2022, S2023, S2024, W2025", marks: "4M–7M" },
+    { rank: 10, q: "Explain Instruction Cycle with flowchart", tags: ["DIAGRAM"], freq: "3x", years: "W2022, S2024, S2025", marks: "4M, 7M" },
+    { rank: 11, q: "Explain register stack (push and pop operations)", tags: [], freq: "3x", years: "S2022, S2024, S2025", marks: "3M" },
+    { rank: 12, q: "Explain Flynn's classification for computers", tags: [], freq: "3x", years: "S2023, S2025, W2025", marks: "3M, 7M" },
+    { rank: 13, q: "Explain pipeline conflicts / List conflicts in instruction pipeline", tags: [], freq: "3x", years: "S2023, W2024, W2025", marks: "3M" },
+    { rank: 14, q: "Briefly explain Daisy-Chaining priority interrupt", tags: [], freq: "3x", years: "W2023, W2024, W2025", marks: "3M, 4M" },
+    { rank: 15, q: "Explain three-state bus buffers / Common Bus System", tags: ["DIAGRAM"], freq: "3x", years: "W2022, S2023, S2025", marks: "3M, 4M, 7M" },
+  ]
+};
+
+let currentFilter = 'all';
+
+function getFreqClass(freq) {
+  if (freq >= 4) return 'repeated-4';
+  if (freq >= 3) return 'repeated-3';
+  if (freq >= 2) return 'repeated-2';
+  return '';
+}
+
+function getFreqBadge(freq) {
+  if (freq >= 4) return `<span class="freq-badge freq-4">🔥 ${freq}x asked</span>`;
+  if (freq >= 3) return `<span class="freq-badge freq-3">⭐ ${freq}x asked</span>`;
+  if (freq >= 2) return `<span class="freq-badge freq-2">🔁 ${freq}x asked</span>`;
+  return '';
+}
+
+function renderQuestion(q) {
+  const hasDiagram = q.tags.includes('DIAGRAM');
+  const hasExample = q.tags.includes('EXAMPLE');
+  const marks7 = q.papers.some(p => p.includes('7M'));
+  const freqClass = getFreqClass(q.freq);
+  const freqBadge = getFreqBadge(q.freq);
+  
+  const tagHtml = q.tags.map(t => {
+    if (t === 'DIAGRAM') return `<span class="tag diagram">📐 DIAGRAM</span>`;
+    if (t === 'EXAMPLE') return `<span class="tag example">💡 EXAMPLE</span>`;
+    return '';
+  }).join('');
+  
+  const chipHtml = q.papers.map(p => `<span class="paper-chip">${p}</span>`).join('');
+  
+  return `<div class="q-card ${freqClass}" data-tags="${q.tags.join(',').toLowerCase()}" data-freq="${q.freq}" data-marks="${marks7 ? '7' : ''}">
+    <div class="q-text">${q.text}</div>
+    <div class="q-footer">${tagHtml}${chipHtml}${freqBadge}</div>
+  </div>`;
+}
+
+function renderSummary() {
+  const tableRows = DATA.mostRepeated.map(r => {
+    const tagHtml = r.tags.map(t => {
+      if (t === 'DIAGRAM') return `<span class="tag diagram" style="font-size:10px;padding:1px 6px">📐 DIAGRAM</span>`;
+      if (t === 'EXAMPLE') return `<span class="tag example" style="font-size:10px;padding:1px 6px">💡 EXAMPLE</span>`;
+      return '';
+    }).join(' ');
+    const rankClass = r.rank <= 3 ? 'top3' : '';
+    const freqColor = r.freq === '4x' ? 'var(--coral)' : r.freq === '3x' ? 'var(--teal)' : 'var(--gold)';
+    return `<tr>
+      <td><span class="rank-num ${rankClass}">${r.rank}</span></td>
+      <td>${r.q} ${tagHtml}</td>
+      <td style="color:${freqColor};font-weight:700">${r.freq}</td>
+      <td style="color:var(--muted)">${r.years}</td>
+      <td><span class="paper-chip">${r.marks}</span></td>
+    </tr>`;
+  }).join('');
+
+  const priority = [
+    { cat: "🔁 Repeated 3+ Times (Must Prepare)", items: ["Memory Reference Instructions (4x)", "Registers of Basic Computer (4x)", "First Pass Assembler flowchart (4x)", "RISC vs CISC (4x)", "Cache Coherence Problem (4x)", "Virtual Memory (4x)", "Addressing Modes with example (4x)", "Memory Hierarchy (4x)", "Address Sequencing (4x)", "Flynn's Classification (3x)", "Instruction Cycle flowchart (3x)", "Register Stack (3x)", "Pipeline Conflicts (3x)", "Daisy-Chaining Interrupt (3x)"] },
+    { cat: "📐 High Priority DIAGRAM Questions", items: ["Draw & explain Instruction Cycle flowchart", "Draw flowchart of First Pass Assembler", "Explain Control Unit / timing diagram", "Draw Common Bus System for basic computer", "4-bit Binary Adder / Adder-Subtractor", "Booth's Algorithm flowchart", "Microprogrammed control organization diagram", "Cache Memory mapping (direct/associative/set-associative)", "Flynn's Classification with proper diagram", "4-segment pipeline structure"] },
+    { cat: "💡 Frequently Asked EXAMPLE Questions", items: ["Addressing modes — always ask for example(s)", "Booth's Algorithm numerical (A=+6, B=+7 or similar)", "Instruction format: two/three-address with expression", "Signed magnitude subtraction A–B numerical", "Shift micro-operation illustration", "Assembly program — add 50 numbers loop", "Base-r subtraction steps"] },
+    { cat: "📌 Frequently Repeated 7M Questions", items: ["Memory Reference Instructions – 7M", "Cache Memory Mapping procedures – 7M", "Virtual Memory / Address mapping – 7M", "First Pass Assembler flowchart – 7M", "Instruction Cycle detailed flowchart – 7M", "Microprogrammed Control Organization – 7M", "Booth's Algorithm with flowchart – 7M", "Cache Coherence problem and solutions – 7M", "Multiprocessor Interconnection Structures – 7M", "Assembly program: multiply two numbers – 7M"] },
+  ];
+
+  const priorityHtml = priority.map(p => `
+    <div class="priority-card">
+      <div class="priority-card-title">${p.cat}</div>
+      ${p.items.map(i => `<div class="priority-item">${i}</div>`).join('')}
+    </div>`).join('');
+
+  return `
+  <div id="summary" class="summary-section">
+    <div class="summary-title">Most Asked Questions Summary</div>
+    <div style="overflow-x:auto">
+    <table class="sum-table">
+      <thead><tr><th>Rank</th><th>Question</th><th>Freq</th><th>Years Asked</th><th>Marks</th></tr></thead>
+      <tbody>${tableRows}</tbody>
+    </table>
+    </div>
+  </div>
+  <div class="priority-section">
+    <div class="priority-title">High Priority Revision Questions</div>
+    <div class="priority-grid">${priorityHtml}</div>
+  </div>`;
+}
+
+function renderAll() {
+  const content = document.getElementById('main-content');
+  let html = '';
+  
+  DATA.units.forEach(unit => {
+    let topicsHtml = '';
+    unit.topics.forEach(topic => {
+      const qHtml = topic.questions.map(q => renderQuestion(q)).join('');
+      topicsHtml += `<div class="topic-group"><div class="topic-label">${topic.name}</div>${qHtml}</div>`;
+    });
+    html += `<div class="unit-section" id="${unit.id}">
+      <div class="unit-header">
+        <span class="unit-badge">Unit ${unit.num}</span>
+        <span class="unit-title">${unit.name}</span>
+        <span class="unit-weight">${unit.weight} Weightage</span>
+      </div>
+      ${topicsHtml}
+    </div>`;
+  });
+  
+  html += renderSummary();
+  content.innerHTML = html;
+  
+  // count total questions
+  const total = DATA.units.reduce((acc, u) => acc + u.topics.reduce((a, t) => a + t.questions.length, 0), 0);
+  document.getElementById('total-q').textContent = total + ' questions';
+  
+  applyFilters();
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  if (filter === 'summary') {
+    document.querySelectorAll('.unit-section').forEach(s => s.classList.add('hidden'));
+    document.querySelector('.summary-section')?.classList.remove('hidden');
+    document.querySelector('.priority-section')?.classList.remove('hidden');
+    document.getElementById('result-count').textContent = '';
+    return;
+  }
+  
+  document.querySelectorAll('.unit-section').forEach(s => s.classList.remove('hidden'));
+  document.querySelector('.summary-section')?.classList.add('hidden');
+  document.querySelector('.priority-section')?.classList.add('hidden');
+  applyFilters();
+}
+
+function applyFilters() {
+  if (currentFilter === 'summary') return;
+  
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.q-card');
+  let visible = 0;
+  
+  cards.forEach(card => {
+    const text = card.querySelector('.q-text').textContent.toLowerCase();
+    const chips = card.querySelectorAll('.paper-chip');
+    const paperText = Array.from(chips).map(c => c.textContent.toLowerCase()).join(' ');
+    const tags = card.dataset.tags;
+    const freq = parseInt(card.dataset.freq) || 1;
+    const marks = card.dataset.marks;
+    
+    let show = true;
+    if (search && !text.includes(search) && !paperText.includes(search)) show = false;
+    if (currentFilter === 'diagram' && !tags.includes('diagram')) show = false;
+    if (currentFilter === 'example' && !tags.includes('example')) show = false;
+    if (currentFilter === 'repeated' && freq < 2) show = false;
+    if (currentFilter === '7m' && marks !== '7') show = false;
+    
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  
+  // Hide empty unit sections
+  document.querySelectorAll('.unit-section').forEach(section => {
+    const hasVisible = section.querySelector('.q-card:not(.hidden)');
+    section.classList.toggle('hidden', !hasVisible);
+  });
+  
+  document.getElementById('result-count').textContent = `${visible} questions`;
+}
+
+function scrollToUnit(id) {
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  
+  if (id === 'all') {
+    setFilter('all', document.querySelector('.filter-btn'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  if (id === 'summary') {
+    setFilter('summary', document.querySelector('.filter-btn[onclick*="summary"]'));
+    document.getElementById('summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  
+  const el = document.getElementById(id);
+  if (el) {
+    // ensure all visible
+    if (currentFilter !== 'all') {
+      setFilter('all', document.querySelector('.filter-btn'));
+    }
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+}
+
+renderAll();
+</script>
+</body>
+</html>
