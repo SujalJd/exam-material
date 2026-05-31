@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discrete Mathematics – Complete Formula & Definition Sheet</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; color: #1a1a2e; }
+
+  .top-bar {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white; padding: 28px 40px 24px;
+  }
+  .top-bar h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  .top-bar p { font-size: 13px; opacity: 0.7; margin-top: 5px; }
+  .top-bar .badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .b1 { background: #534AB7; color: #fff; }
+  .b2 { background: #0F6E56; color: #fff; }
+  .b3 { background: #993C1D; color: #fff; }
+  .b4 { background: #185FA5; color: #fff; }
+  .b5 { background: #854F0B; color: #fff; }
+
+  .tabs-wrap { background: #fff; border-bottom: 2px solid #e8eaf0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .tabs { display: flex; overflow-x: auto; padding: 0 40px; gap: 0; }
+  .tabs::-webkit-scrollbar { height: 3px; }
+  .tabs::-webkit-scrollbar-thumb { background: #ccc; }
+  .tab { padding: 16px 20px; border: none; background: none; font-size: 13px; font-weight: 600; cursor: pointer; color: #666; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .tab:hover { color: #1a1a2e; background: #f5f6fa; }
+  .tab.active { color: #534AB7; border-bottom-color: #534AB7; background: none; }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 30px 24px 60px; }
+  .unit { display: none; }
+  .unit.active { display: block; }
+
+  .unit-intro { background: #fff; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; border-left: 5px solid #534AB7; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .u2 .unit-intro { border-left-color: #0F6E56; }
+  .u3 .unit-intro { border-left-color: #993C1D; }
+  .u4 .unit-intro { border-left-color: #185FA5; }
+  .u5 .unit-intro { border-left-color: #854F0B; }
+  .unit-intro h2 { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+  .unit-intro p { font-size: 13px; color: #666; margin-top: 4px; }
+
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    color: #534AB7; margin-bottom: 12px; padding-bottom: 6px;
+    border-bottom: 1.5px solid #EEEDFE; display: flex; align-items: center; gap: 8px;
+  }
+  .u2 .section-title { color: #0F6E56; border-bottom-color: #E1F5EE; }
+  .u3 .section-title { color: #993C1D; border-bottom-color: #FAECE7; }
+  .u4 .section-title { color: #185FA5; border-bottom-color: #E6F1FB; }
+  .u5 .section-title { color: #854F0B; border-bottom-color: #FAEEDA; }
+
+  .card {
+    background: #fff; border-radius: 10px; padding: 14px 16px;
+    margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f5; transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.1); }
+
+  .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; letter-spacing: 0.5px; }
+  .tag-def { background: #EEEDFE; color: #3C3489; }
+  .tag-formula { background: #E1F5EE; color: #085041; }
+  .tag-theorem { background: #FAECE7; color: #712B13; }
+  .tag-rule { background: #FAEEDA; color: #633806; }
+
+  .term { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+  .meaning { font-size: 13.5px; color: #444; line-height: 1.65; margin-bottom: 8px; }
+  .formula-box {
+    background: #f8f9fc; border: 1px solid #e8eaf0; border-radius: 7px;
+    padding: 10px 14px; font-family: 'Courier New', monospace; font-size: 12.5px;
+    color: #1a1a2e; line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+  }
+  .tip { font-size: 12px; color: #888; margin-top: 8px; font-style: italic; padding-left: 4px; border-left: 2px solid #e0e0e0; }
+
+  .print-btn {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #534AB7; color: white; border: none; padding: 12px 22px;
+    border-radius: 50px; font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(83,74,183,0.4); display: flex; align-items: center; gap: 7px;
+    transition: all 0.2s;
+  }
+  .print-btn:hover { background: #3C3489; transform: translateY(-1px); }
+
+  .footer { text-align: center; font-size: 12px; color: #aaa; padding: 20px; margin-top: 20px; }
+
+  @media print {
+    .tabs-wrap, .print-btn { display: none !important; }
+    .unit { display: block !important; page-break-before: always; }
+    .unit:first-of-type { page-break-before: auto; }
+    .top-bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    body { background: white; }
+    .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  }
+  @media (max-width: 600px) {
+    .top-bar { padding: 20px 16px; }
+    .top-bar h1 { font-size: 20px; }
+    .content { padding: 16px 12px 60px; }
+    .tabs { padding: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>📐 Discrete Mathematics — Complete Reference</h1>
+  <p>Gujarat Technological University · BE Semester IV · Subject Code: 3140708 / BE04000261</p>
+  <div class="badges">
+    <span class="badge b1">Unit 1: Logic</span>
+    <span class="badge b2">Unit 2: Sets & Counting</span>
+    <span class="badge b3">Unit 3: Functions & Algebra</span>
+    <span class="badge b4">Unit 4: Relations & Lattices</span>
+    <span class="badge b5">Unit 5: Graphs & Trees</span>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="show('u1',this)">Unit 1: Logic</button>
+    <button class="tab" onclick="show('u2',this)">Unit 2: Sets & Counting</button>
+    <button class="tab" onclick="show('u3',this)">Unit 3: Functions & Algebra</button>
+    <button class="tab" onclick="show('u4',this)">Unit 4: Relations & Lattices</button>
+    <button class="tab" onclick="show('u5',this)">Unit 5: Graphs & Trees</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ===================== UNIT 1 ===================== -->
+<div id="u1" class="unit active">
+  <div class="unit-intro">
+    <h2>Unit 1: Propositional & Predicate Logic</h2>
+    <p>Covers: Statements, truth values, connectives, tautologies, equivalences, duality, predicates, quantifiers, free/bound variables · Weightage: 18%</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">▸ Propositional Logic — Core Definitions</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Proposition (Statement)</span></div>
+      <p class="meaning">A sentence that is either completely TRUE or completely FALSE — never both, never "maybe". It must have a definite truth value.</p>
+      <div class="formula-box">Examples: "2+2=4" → Proposition ✓ | "x > 5" → NOT a proposition (x is unknown) | "Close the door" → NOT a proposition (command)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Logical Connectives</span></div>
+      <p class="meaning">Symbols used to join simple propositions to form compound statements. Each has a specific meaning and truth table.</p>
+      <div class="formula-box">¬p     = NOT p         (Negation — flips T to F, F to T)
+p ∧ q  = p AND q       (Conjunction — TRUE only when BOTH are true)
+p ∨ q  = p OR q        (Disjunction — FALSE only when BOTH are false)
+p → q  = If p then q   (Implication — FALSE only when p=T and q=F)
+p ↔ q  = p iff q       (Biconditional — TRUE when both have same value)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Tautology</span></div>
+      <p class="meaning">A formula that is ALWAYS TRUE no matter what truth values you assign to its variables. Every row of its truth table gives TRUE.</p>
+      <div class="formula-box">p ∨ ¬p  ≡  T  (always true — "it rains OR it doesn't rain")
+(p → q) ↔ (¬p ∨ q)  is a tautology</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Contradiction</span></div>
+      <p class="meaning">A formula that is ALWAYS FALSE no matter what values you assign. Every row of its truth table gives FALSE.</p>
+      <div class="formula-box">p ∧ ¬p  ≡  F  (always false — "it rains AND it doesn't rain")</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Contingency</span></div>
+      <p class="meaning">A formula that is SOMETIMES TRUE and SOMETIMES FALSE depending on values. It is neither a tautology nor a contradiction.</p>
+      <div class="formula-box">p ∧ q  is contingent (true when both true, false otherwise)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Logical Equivalence (≡)</span></div>
+      <p class="meaning">Two formulas A and B are logically equivalent if they have EXACTLY THE SAME truth table — they give identical outputs for every possible input.</p>
+      <div class="formula-box">A ≡ B  means  A ↔ B  is a tautology
+Key: p → q  ≡  ¬p ∨ q  (very important equivalence!)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Converse, Inverse, Contrapositive of p → q</span></div>
+      <p class="meaning">Three variations of an implication. The CONTRAPOSITIVE is always logically equivalent to the original. Converse and Inverse are equivalent to each other but NOT to the original.</p>
+      <div class="formula-box">Original:        p → q
+Converse:        q → p       (NOT equivalent to original)
+Inverse:         ¬p → ¬q     (NOT equivalent to original)
+Contrapositive:  ¬q → ¬p    (EQUIVALENT to original ✓)</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">▸ Important Logical Laws & Equivalences</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">De Morgan's Laws</span></div>
+      <p class="meaning">Used to "push" a NOT inside brackets. AND becomes OR and OR becomes AND when negated.</p>
+      <div class="formula-box">¬(p ∧ q)  ≡  ¬p ∨ ¬q
+¬(p ∨ q)  ≡  ¬p ∧ ¬q</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Distributive Laws</span></div>
+      <p class="meaning">AND distributes over OR, and OR distributes over AND — just like multiplication distributes over addition in algebra.</p>
+      <div class="formula-box">p ∧ (q ∨ r)  ≡  (p ∧ q) ∨ (p ∧ r)
+p ∨ (q ∧ r)  ≡  (p ∨ q) ∧ (p ∨ r)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Identity, Domination, Absorption & Idempotent Laws</span></div>
+      <div class="formula-box">Identity:    p ∧ T ≡ p        p ∨ F ≡ p
+Domination:  p ∧ F ≡ F        p ∨ T ≡ T
+Idempotent:  p ∧ p ≡ p        p ∨ p ≡ p
+Absorption:  p ∨ (p ∧ q) ≡ p  p ∧ (p ∨ q) ≡ p
+Double Neg:  ¬(¬p) ≡ p</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Duality Law</span></div>
+      <p class="meaning">If you swap ∧ ↔ ∨ and T ↔ F in a tautology, the result is also a tautology. Every logical law has a "dual" partner.</p>
+      <div class="formula-box">Dual of (p ∧ T ≡ p) is (p ∨ F ≡ p)
+Dual of (p ∧ ¬p ≡ F) is (p ∨ ¬p ≡ T)</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">▸ Predicate Logic</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Predicate</span></div>
+      <p class="meaning">A statement CONTAINING A VARIABLE that becomes a proposition (true/false) once you substitute a specific value for the variable. Like a boolean function.</p>
+      <div class="formula-box">P(x): "x is even"
+P(4) = TRUE   |   P(3) = FALSE</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Universal Quantifier — ∀ (For All)</span></div>
+      <p class="meaning">∀x P(x) claims P(x) is TRUE for EVERY value of x in the domain. To prove it TRUE, show it holds for all. To prove it FALSE, find just ONE counterexample.</p>
+      <div class="formula-box">∀x P(x) = "For all x, P(x) is true"
+Disprove: find one x where P(x) is FALSE (counterexample)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Existential Quantifier — ∃ (There Exists)</span></div>
+      <p class="meaning">∃x P(x) claims P(x) is TRUE for AT LEAST ONE value of x. To prove it TRUE, find just one example. To prove FALSE, show no value works.</p>
+      <div class="formula-box">∃x P(x) = "There exists at least one x such that P(x) is true"
+Prove: find one x where P(x) is TRUE (example)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Negation of Quantifiers</span></div>
+      <p class="meaning">To negate a quantified statement: flip ∀ ↔ ∃ and negate the predicate. Think of it as switching between "all" and "some."</p>
+      <div class="formula-box">¬(∀x P(x))  ≡  ∃x ¬P(x)   ("not all" = "some are not")
+¬(∃x P(x))  ≡  ∀x ¬P(x)   ("none" = "all are not")</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Free vs Bound Variables</span></div>
+      <p class="meaning">A variable is BOUND if it is controlled/governed by a quantifier (∀ or ∃). A variable is FREE if no quantifier governs it — it acts like an unknown constant.</p>
+      <div class="formula-box">In  ∃x P(x, y):
+  x → BOUND (controlled by ∃)
+  y → FREE (no quantifier governs it)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIT 2 ===================== -->
+<div id="u2" class="unit">
+  <div class="unit-intro u2">
+    <h2>Unit 2: Set Theory, Counting & Recurrence Relations</h2>
+    <p>Covers: Set operations, power set, inclusion-exclusion, permutations, combinations, Pigeonhole principle, recurrence relations · Weightage: 11%</p>
+  </div>
+
+  <div class="section u2">
+    <div class="section-title">▸ Set Theory — Core Definitions</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Set</span></div>
+      <p class="meaning">An unordered collection of DISTINCT, well-defined objects called elements. Repetition is not allowed, and order doesn't matter.</p>
+      <div class="formula-box">A = {1, 2, 3}  and  A = {3, 1, 2}  are the SAME set
+|A| = cardinality = number of elements in A</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Set Operations</span></div>
+      <p class="meaning">Standard ways to combine, compare, and build new sets from existing ones.</p>
+      <div class="formula-box">A ∪ B  = Union        = elements in A OR B (or both)
+A ∩ B  = Intersection = elements in BOTH A and B
+A − B  = Difference   = elements in A but NOT in B
+A'     = Complement   = elements NOT in A (within universal set U)
+A × B  = Cartesian    = all ordered pairs (a,b), a∈A, b∈B
+A ⊕ B  = Sym.Diff.    = (A−B) ∪ (B−A) = elements in exactly one</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Power Set P(A)</span></div>
+      <p class="meaning">The set of ALL possible subsets of A, including the empty set ∅ and A itself. For a set of size n, there are always 2ⁿ subsets.</p>
+      <div class="formula-box">|P(A)| = 2^|A|
+If A = {1, 2} → P(A) = {∅, {1}, {2}, {1,2}} → |P(A)| = 2² = 4</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">De Morgan's Laws (Sets)</span></div>
+      <p class="meaning">Complement of a union = intersection of complements (and vice versa). Works exactly like De Morgan's in logic.</p>
+      <div class="formula-box">(A ∪ B)' = A' ∩ B'
+(A ∩ B)' = A' ∪ B'</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Distributive Laws (Sets)</span></div>
+      <div class="formula-box">A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
+A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)</div>
+    </div>
+  </div>
+
+  <div class="section u2">
+    <div class="section-title">▸ Counting & Combinatorics</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Addition Principle</span></div>
+      <p class="meaning">If task A can be done m ways and task B (separately) can be done n ways, then either A OR B can be done in m + n ways (when tasks are disjoint).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Multiplication Principle</span></div>
+      <p class="meaning">If task A can be done m ways AND THEN task B can be done n ways, then doing A followed by B can be done in m × n ways total.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Permutation ⁿPᵣ — Order Matters</span></div>
+      <p class="meaning">Number of ways to ARRANGE r items chosen from n items, where ORDER MATTERS. Choosing a president, VP, and secretary from 10 people uses permutations.</p>
+      <div class="formula-box">ⁿPᵣ  =  n! / (n−r)!  =  n × (n−1) × (n−2) × ... × (n−r+1)
+⁵P₃ = 5×4×3 = 60</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Combination ⁿCᵣ — Order Doesn't Matter</span></div>
+      <p class="meaning">Number of ways to SELECT r items from n items where ORDER DOESN'T MATTER. Choosing a committee of 3 from 10 people uses combinations.</p>
+      <div class="formula-box">ⁿCᵣ  =  C(n,r)  =  n! / (r! × (n−r)!)
+Key relation: ⁿPᵣ = r! × ⁿCᵣ
+C(n,r) = C(n, n−r)   (symmetry property)
+C(n,0) = C(n,n) = 1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-theorem">THM</span><span class="term">Binomial Theorem</span></div>
+      <p class="meaning">Expands (x + y)ⁿ into a sum without multiplying n times. Each term uses a binomial coefficient C(n,k).</p>
+      <div class="formula-box">(x + y)ⁿ  =  Σₖ₌₀ⁿ  C(n,k) · x^(n−k) · y^k
+(x+y)² = C(2,0)x² + C(2,1)xy + C(2,2)y² = x² + 2xy + y²</div>
+      <p class="tip">Pascal's Triangle gives the coefficients C(n,k) row by row</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-theorem">THM</span><span class="term">Pigeonhole Principle</span></div>
+      <p class="meaning">If you place MORE items than containers, at least one container MUST hold more than one item. Simple but surprisingly useful in proofs.</p>
+      <div class="formula-box">Basic:     If n items → k boxes and n > k, ∃ box with ≥ 2 items
+Generalized: At least one box contains ≥ ⌈n/k⌉ items
+
+Example: 13 people must include 2 born in the same month (12 months)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Inclusion-Exclusion Principle</span></div>
+      <p class="meaning">To count elements in a UNION without double-counting overlaps: add individuals, subtract pairwise overlaps, add back triple overlaps, etc.</p>
+      <div class="formula-box">|A ∪ B|       = |A| + |B| − |A ∩ B|
+|A ∪ B ∪ C|  = |A| + |B| + |C|
+               − |A∩B| − |B∩C| − |A∩C|
+               + |A∩B∩C|</div>
+    </div>
+  </div>
+
+  <div class="section u2">
+    <div class="section-title">▸ Recurrence Relations</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Recurrence Relation</span></div>
+      <p class="meaning">An equation where each term is defined using one or more PREVIOUS terms, plus initial conditions to start the sequence. Like a recipe where each step builds on earlier steps.</p>
+      <div class="formula-box">Fibonacci: aₙ = aₙ₋₁ + aₙ₋₂,  a₀ = 0, a₁ = 1
+Gives: 0, 1, 1, 2, 3, 5, 8, 13, 21, ...</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Characteristic Equation Method (Homogeneous)</span></div>
+      <p class="meaning">To solve linear homogeneous recurrence relations, substitute aₙ = rⁿ to get the characteristic equation, find its roots, then use initial conditions to find constants.</p>
+      <div class="formula-box">For  aₙ = c₁aₙ₋₁ + c₂aₙ₋₂  (2nd order):
+Characteristic equation:  r² − c₁r − c₂ = 0
+
+Case 1 — Distinct roots r₁ ≠ r₂:
+  aₙ = A·r₁ⁿ + B·r₂ⁿ
+
+Case 2 — Repeated root r₁ = r₂ = r:
+  aₙ = (A + Bn)·rⁿ
+
+Use initial conditions a₀, a₁ to find A and B</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Non-Homogeneous Recurrence (Undetermined Coefficients)</span></div>
+      <p class="meaning">When the recurrence has an extra term (like a constant or exponential on the right side), find the homogeneous solution + a particular solution and add them.</p>
+      <div class="formula-box">For aₙ − c·aₙ₋₁ = f(n):
+General solution = Homogeneous solution + Particular solution
+
+If f(n) = constant k:  try particular solution aₙ = A (constant)
+If f(n) = bⁿ:          try particular solution aₙ = C·bⁿ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIT 3 ===================== -->
+<div id="u3" class="unit">
+  <div class="unit-intro u3">
+    <h2>Unit 3: Functions & Algebraic Structures</h2>
+    <p>Covers: Domain, range, injective, surjective, bijective, composition, inverse functions. Semigroup, Monoid, Group, Subgroup, Coset, Normal Subgroup, Lagrange's Theorem, Ring, Field · Weightage: 22%</p>
+  </div>
+
+  <div class="section u3">
+    <div class="section-title">▸ Functions — Definitions</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Function (Mapping) f: A → B</span></div>
+      <p class="meaning">A rule that assigns EXACTLY ONE output (element of B) to every input (element of A). Domain = set A; Codomain = set B; Range = actual output values used.</p>
+      <div class="formula-box">Domain A: all possible inputs
+Codomain B: all possible outputs (declared)
+Range: {f(a) : a ∈ A} ⊆ B  (actual outputs)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Injective (One-to-One) Function</span></div>
+      <p class="meaning">Different inputs ALWAYS produce different outputs — no two elements of A ever map to the same element of B. Like a "no-sharing" rule for outputs.</p>
+      <div class="formula-box">f is injective iff:  f(a₁) = f(a₂)  ⟹  a₁ = a₂
+Equivalently:  a₁ ≠ a₂  ⟹  f(a₁) ≠ f(a₂)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Surjective (Onto) Function</span></div>
+      <p class="meaning">Every element in codomain B is "hit" by at least one input from A. Nothing in B is left out — the range equals the codomain.</p>
+      <div class="formula-box">f is surjective iff:  ∀ b ∈ B, ∃ a ∈ A such that f(a) = b
+Range = Codomain B</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Bijective (One-to-One and Onto)</span></div>
+      <p class="meaning">BOTH injective AND surjective — a perfect pairing where every input has a unique output AND every output is covered. Only bijective functions have inverse functions.</p>
+      <div class="formula-box">Bijective = Injective + Surjective
+Perfect 1-to-1 correspondence between A and B
+|A| = |B| is necessary for bijection between finite sets</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Composition of Functions (f ∘ g)</span></div>
+      <p class="meaning">Apply g FIRST, then apply f to the result. Like chaining two machines — output of first becomes input of second.</p>
+      <div class="formula-box">(f ∘ g)(x) = f(g(x))   — apply g first, then f
+(g ∘ f)(x) = g(f(x))   — apply f first, then g
+
+IMPORTANT: f ∘ g ≠ g ∘ f  in general (order matters!)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Inverse Function f⁻¹</span></div>
+      <p class="meaning">The reverse operation that undoes what f did. Exists ONLY if f is bijective. Swaps input and output roles.</p>
+      <div class="formula-box">f⁻¹ exists  ⟺  f is bijective
+f(f⁻¹(y)) = y   and   f⁻¹(f(x)) = x
+To find f⁻¹: write y = f(x), solve for x in terms of y</div>
+    </div>
+  </div>
+
+  <div class="section u3">
+    <div class="section-title">▸ Algebraic Structures — The Hierarchy</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Binary Operation</span></div>
+      <p class="meaning">A rule that combines TWO elements from a set and produces ONE result from the SAME set (closure property). Addition on ℤ is a binary operation; division on ℤ is NOT (2÷3 ∉ ℤ).</p>
+      <div class="formula-box">∗: S × S → S  (closure: a∗b ∈ S for all a,b ∈ S)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Semigroup (S, ∗)</span></div>
+      <p class="meaning">The simplest algebraic structure. Just needs CLOSURE and ASSOCIATIVITY. No identity element, no inverse required.</p>
+      <div class="formula-box">Axioms:
+1. Closure:       a∗b ∈ S  for all a,b ∈ S
+2. Associativity: (a∗b)∗c = a∗(b∗c)  for all a,b,c ∈ S
+
+Example: (ℤ⁺, ×) — positive integers under multiplication</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Monoid (S, ∗)</span></div>
+      <p class="meaning">A semigroup PLUS an identity element e. The identity element doesn't change anything when combined: a∗e = e∗a = a.</p>
+      <div class="formula-box">Axioms: Semigroup axioms +
+3. Identity: ∃ e ∈ S such that a∗e = e∗a = a  for all a ∈ S
+
+Example: (ℤ, ×) — integers under multiplication, identity = 1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Group (G, ∗)</span></div>
+      <p class="meaning">A monoid where every element also has an INVERSE. The inverse of a "undoes" the operation. Groups are the foundation of modern algebra.</p>
+      <div class="formula-box">Axioms: Monoid axioms +
+4. Inverse: ∀ a ∈ G, ∃ a⁻¹ ∈ G such that a∗a⁻¹ = a⁻¹∗a = e
+
+Example: (ℤ, +) — integers under addition, identity=0, inverse of a is −a</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Abelian (Commutative) Group</span></div>
+      <p class="meaning">A group where the ORDER of operation doesn't matter — a∗b = b∗a always. Like addition: 3+5 = 5+3.</p>
+      <div class="formula-box">Abelian Group = Group + Commutativity
+5. Commutativity: a∗b = b∗a  for all a,b ∈ G</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Subgroup (H, ∗)</span></div>
+      <p class="meaning">A NON-EMPTY SUBSET H of group G that is itself a group under the same operation. Must contain the identity, be closed, and contain inverses.</p>
+      <div class="formula-box">H ≤ G  (H is a subgroup of G) iff:
+1. e ∈ H  (contains identity)
+2. a,b ∈ H  ⟹  a∗b ∈ H  (closed under operation)
+3. a ∈ H  ⟹  a⁻¹ ∈ H  (closed under inverses)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-theorem">THM</span><span class="term">Lagrange's Theorem</span></div>
+      <p class="meaning">The size (order) of any subgroup MUST DIVIDE the size of the whole group. You cannot have a subgroup of size 4 inside a group of size 6, since 4 does not divide 6.</p>
+      <div class="formula-box">If H is a subgroup of finite group G, then:
+|H|  divides  |G|
+
+Number of distinct cosets of H in G = |G| / |H|  (index)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Coset</span></div>
+      <p class="meaning">When you "shift" a subgroup H by a fixed element a, you get a coset. Left coset = aH (multiply from left), Right coset = Ha (multiply from right).</p>
+      <div class="formula-box">Left coset:   aH = {a∗h : h ∈ H}
+Right coset:  Ha = {h∗a : h ∈ H}
+
+Cosets of H partition G into equal-sized disjoint pieces</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Normal Subgroup</span></div>
+      <p class="meaning">A subgroup H where LEFT cosets and RIGHT cosets are ALWAYS EQUAL for every element of G. Every subgroup of an abelian group is normal.</p>
+      <div class="formula-box">H is normal in G (written H ◁ G) iff:
+aH = Ha  for ALL a ∈ G
+Equivalently: aHa⁻¹ = H  for all a ∈ G</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Homomorphism</span></div>
+      <p class="meaning">A function between two groups that PRESERVES the group operation — doing the operation then mapping = mapping then doing the operation.</p>
+      <div class="formula-box">f: (G,∗) → (H,•) is homomorphism iff:
+f(a∗b) = f(a)•f(b)  for all a,b ∈ G
+
+Properties: f(e_G) = e_H  and  f(a⁻¹) = [f(a)]⁻¹</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Cyclic Group</span></div>
+      <p class="meaning">A group where ALL elements can be generated by repeatedly applying the operation to a single element g (called the generator).</p>
+      <div class="formula-box">G = ⟨g⟩ = {gⁿ : n ∈ ℤ} = {..., g⁻², g⁻¹, e, g, g², ...}
+Every cyclic group is abelian
+Example: (ℤ₆, +₆) is cyclic, generators are 1 and 5</div>
+    </div>
+  </div>
+
+  <div class="section u3">
+    <div class="section-title">▸ Rings, Integral Domains & Fields</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Ring (R, +, ·)</span></div>
+      <p class="meaning">A set with TWO operations (addition and multiplication) satisfying: (R,+) is an abelian group, multiplication is associative, and multiplication distributes over addition.</p>
+      <div class="formula-box">Ring axioms:
+• (R, +) is an abelian group (identity = 0, inverse = −a)
+• Multiplication is associative: a·(b·c) = (a·b)·c
+• Distributivity: a·(b+c) = a·b + a·c  and  (b+c)·a = b·a + c·a
+
+Example: (ℤ, +, ×), (ℤₙ, +ₙ, ×ₙ)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Integral Domain</span></div>
+      <p class="meaning">A COMMUTATIVE ring with identity (1≠0) that has NO zero divisors — if a·b = 0, then a = 0 or b = 0. Like the integers.</p>
+      <div class="formula-box">Integral Domain = Commutative Ring + No zero divisors
+Example: (ℤ, +, ×) is an integral domain
+Non-example: ℤ₆ is NOT (2·3 = 0 mod 6, but 2≠0, 3≠0)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Field</span></div>
+      <p class="meaning">An integral domain where EVERY non-zero element has a multiplicative inverse. Division is always possible (except by zero).</p>
+      <div class="formula-box">Field = Integral Domain + multiplicative inverse for every a ≠ 0
+Hierarchy: Field ⊂ Integral Domain ⊂ Ring
+Examples: ℚ (rationals), ℝ (reals), ℂ (complex), ℤₚ (p prime)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIT 4 ===================== -->
+<div id="u4" class="unit">
+  <div class="unit-intro u4">
+    <h2>Unit 4: Relations, Partial Orders & Lattices</h2>
+    <p>Covers: Binary relations, properties, equivalence relations, partial orders, Hasse diagrams, LUB, GLB, lattices, Boolean algebra · Weightage: 22%</p>
+  </div>
+
+  <div class="section u4">
+    <div class="section-title">▸ Relations — Definitions & Properties</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Binary Relation R on Set A</span></div>
+      <p class="meaning">A subset of A × A. It tells us which pairs of elements are "related." We write aRb (or (a,b) ∈ R) if a is related to b.</p>
+      <div class="formula-box">R ⊆ A × A
+aRb  means  (a,b) ∈ R  (a is related to b)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Reflexive</span></div>
+      <p class="meaning">Every element is related to ITSELF. The diagonal of the relation matrix is all 1s.</p>
+      <div class="formula-box">R is reflexive iff:  (a,a) ∈ R  for ALL a ∈ A
+Example: "≤" on ℤ is reflexive (a ≤ a always)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Symmetric</span></div>
+      <p class="meaning">If a is related to b, then b is ALSO related to a. The relation matrix is symmetric about the diagonal.</p>
+      <div class="formula-box">R is symmetric iff:  (a,b) ∈ R  ⟹  (b,a) ∈ R
+Example: "is a sibling of" is symmetric</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Antisymmetric</span></div>
+      <p class="meaning">If a is related to b AND b is related to a, then a MUST EQUAL b. This is NOT the same as "not symmetric."</p>
+      <div class="formula-box">R is antisymmetric iff:  (a,b)∈R  and  (b,a)∈R  ⟹  a = b
+Example: "divides" on ℕ — if a|b and b|a, then a=b</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Transitive</span></div>
+      <p class="meaning">If a is related to b, and b is related to c, then a MUST be related to c. Chains are automatically connected.</p>
+      <div class="formula-box">R is transitive iff:  (a,b)∈R  and  (b,c)∈R  ⟹  (a,c)∈R
+Example: "is an ancestor of" is transitive</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Equivalence Relation</span></div>
+      <p class="meaning">A relation that is ALL THREE: Reflexive + Symmetric + Transitive. Partitions the set into "equivalence classes" — elements in same class are considered equivalent.</p>
+      <div class="formula-box">Equivalence Relation  =  Reflexive + Symmetric + Transitive
+
+Example: congruence mod m:
+a ≡ b (mod m)  iff  m | (a−b)
+Equivalence classes of ≡ mod 3: [0]={...,−3,0,3,...}, [1]={...,−2,1,4,...}, [2]={...,−1,2,5,...}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Compatibility Relation & Maximal Compatibility Block</span></div>
+      <p class="meaning">A relation that is Reflexive and Symmetric (but not necessarily transitive). A Maximal Compatibility Block is the largest set of mutually compatible elements.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Composite Relation R∘S</span></div>
+      <p class="meaning">The composition of relations: aR∘Sc means there exists b such that aRb AND bSc. Like function composition but for relations.</p>
+      <div class="formula-box">R∘S = {(a,c) : ∃b such that (a,b)∈R and (b,c)∈S}
+Matrix: M_{R∘S} = M_R × M_S  (Boolean matrix multiplication)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Warshall's Algorithm — Transitive Closure</span></div>
+      <p class="meaning">Computes the path matrix (reachability matrix) from an adjacency matrix. Checks whether a path exists between every pair of vertices by considering each vertex as an intermediate step.</p>
+      <div class="formula-box">Input: Adjacency matrix W of relation R on {1,2,...,n}
+
+Algorithm:
+  For k = 1 to n:
+    For i = 1 to n:
+      For j = 1 to n:
+        W[i][j] = W[i][j]  OR  (W[i][k]  AND  W[k][j])
+
+Result W = path matrix (transitive closure)</div>
+      <p class="tip">W[i][j] = 1 means there is a path from vertex i to vertex j of any length</p>
+    </div>
+  </div>
+
+  <div class="section u4">
+    <div class="section-title">▸ Partial Orders, Posets & Hasse Diagrams</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Partial Order & Poset</span></div>
+      <p class="meaning">A relation that is Reflexive + Antisymmetric + Transitive. Not all elements need to be comparable — some may be "incomparable" (neither a ≤ b nor b ≤ a).</p>
+      <div class="formula-box">Partial Order  =  Reflexive + Antisymmetric + Transitive
+(A, ≤) = Partially Ordered Set (Poset)
+Example: (P(A), ⊆) — power set ordered by inclusion</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Hasse Diagram</span></div>
+      <p class="meaning">A simplified visual of a partial order. Elements are dots; lines go UP to show "greater than." Reflexive loops and transitive edges are omitted (implied).</p>
+      <div class="formula-box">Rules for drawing Hasse diagram:
+1. Place higher elements above lower elements
+2. Draw a line from a to b if a ≺ b directly (no element between them)
+3. Remove reflexive loops (a→a)
+4. Remove edges implied by transitivity</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Maximal vs Greatest Element</span></div>
+      <p class="meaning">MAXIMAL: no element is greater than it, but it may not be comparable to everything. GREATEST: ALL other elements are ≤ it. Greatest element is unique; maximal elements can be many.</p>
+      <div class="formula-box">Greatest element g: a ≤ g  for ALL a in poset (unique if exists)
+Maximal element m: there is no x with m < x (may be multiple)
+Least element l: l ≤ a  for ALL a in poset (unique if exists)
+Minimal element: there is no x with x < m</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">LUB (Supremum) & GLB (Infimum)</span></div>
+      <p class="meaning">For a subset S of a poset: LUB = smallest element that is ≥ ALL elements of S. GLB = largest element that is ≤ ALL elements of S.</p>
+      <div class="formula-box">LUB(S) = Supremum = Least Upper Bound (join ∨)
+GLB(S) = Infimum  = Greatest Lower Bound (meet ∧)
+
+These may or may not exist in a general poset</div>
+    </div>
+  </div>
+
+  <div class="section u4">
+    <div class="section-title">▸ Lattices</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Lattice</span></div>
+      <p class="meaning">A poset where EVERY PAIR of elements has both a LUB (join, ∨) AND a GLB (meet, ∧). Every two elements can always be "joined" or "met."</p>
+      <div class="formula-box">⟨L, ≤⟩ is a lattice iff for every a,b ∈ L:
+  a ∨ b  (join = LUB of {a,b}) exists  AND
+  a ∧ b  (meet = GLB of {a,b}) exists</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-rule">LAW</span><span class="term">Laws of Lattice (Properties)</span></div>
+      <div class="formula-box">Idempotent:    a ∨ a = a         a ∧ a = a
+Commutative:   a ∨ b = b ∨ a     a ∧ b = b ∧ a
+Associative:   (a∨b)∨c = a∨(b∨c)
+Absorption:    a ∨ (a ∧ b) = a   a ∧ (a ∨ b) = a</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-theorem">THM</span><span class="term">Lattice Inequalities (Exam Favourite!)</span></div>
+      <p class="meaning">Two key inequalities that hold in EVERY lattice. Equality holds only in distributive lattices.</p>
+      <div class="formula-box">a ∧ (b ∨ c)  ≥  (a ∧ b) ∨ (a ∧ c)
+a ∨ (b ∧ c)  ≤  (a ∨ b) ∧ (a ∨ c)</div>
+      <p class="tip">Exam tip: If a,b,c ∈ L and a ≤ b, then a ∨ c ≤ b ∨ c  and  a ∧ c ≤ b ∧ c</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Distributive Lattice</span></div>
+      <p class="meaning">A lattice where join distributes over meet and meet distributes over join — BOTH distributive laws hold perfectly as equalities.</p>
+      <div class="formula-box">a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)
+a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Complemented Lattice</span></div>
+      <p class="meaning">A BOUNDED lattice (has a 0 = least element, and 1 = greatest element) where every element a has a COMPLEMENT a' such that a∨a'=1 and a∧a'=0.</p>
+      <div class="formula-box">a ∨ a' = 1  (top/greatest element)
+a ∧ a' = 0  (bottom/least element)
+a' is called the complement of a</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Boolean Algebra (Boolean Lattice)</span></div>
+      <p class="meaning">A lattice that is BOTH distributive AND complemented. The most structured type — models true/false logic and set operations perfectly.</p>
+      <div class="formula-box">Boolean Algebra = Distributive Lattice + Complemented Lattice
+Example 1: Power set P(A) with ∪, ∩, complement
+Example 2: {0,1} with OR, AND, NOT (classic logic)
+S₃₀ = divisors of 30 under divisibility forms a Boolean algebra</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIT 5 ===================== -->
+<div id="u5" class="unit">
+  <div class="unit-intro u5">
+    <h2>Unit 5: Graph Theory & Trees</h2>
+    <p>Covers: Graphs, digraphs, paths, connectivity, adjacency matrix, Warshall's algorithm, trees, traversals, BFS, DFS, Dijkstra, Kruskal · Weightage: 27%</p>
+  </div>
+
+  <div class="section u5">
+    <div class="section-title">▸ Graph Theory — Basic Definitions</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Graph G = (V, E)</span></div>
+      <p class="meaning">A mathematical structure with VERTICES (nodes/dots) and EDGES (lines connecting pairs of vertices). Models real-world networks like roads, social connections, circuits.</p>
+      <div class="formula-box">V = set of vertices (nodes)
+E = set of edges (connections)
+Order of G = |V|  (number of vertices)
+Size  of G = |E|  (number of edges)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Degree of a Vertex</span></div>
+      <p class="meaning">The number of EDGES touching (incident to) a vertex. In directed graphs, in-degree = edges coming IN, out-degree = edges going OUT.</p>
+      <div class="formula-box">Undirected: deg(v) = number of edges at v
+Directed:   in-deg(v)  = edges pointing TO v
+            out-deg(v) = edges pointing FROM v
+Isolated vertex: deg(v) = 0
+Pendant vertex:  deg(v) = 1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-theorem">THM</span><span class="term">Handshaking Lemma</span></div>
+      <p class="meaning">Sum of ALL vertex degrees = TWICE the number of edges. Every edge adds 1 to the degree of each of its two endpoints. Consequence: odd-degree vertices always come in pairs.</p>
+      <div class="formula-box">Σ deg(v) = 2|E|  (sum over all vertices v)
+
+Consequence: Every graph has an EVEN number of odd-degree vertices
+Corollary: An r-regular graph with n vertices has  n·r/2  edges</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Complete Graph Kₙ</span></div>
+      <p class="meaning">Every vertex is connected to every OTHER vertex. Has the maximum possible number of edges for n vertices. K₅ is famous in planarity theory.</p>
+      <div class="formula-box">Number of edges:  |E| = C(n,2) = n(n−1)/2
+Degree of each vertex:  deg(v) = n−1
+Kₙ is (n−1)-regular
+K₁=1 edge:0 | K₂=1 | K₃=3 | K₄=6 | K₅=10 | Kₙ=n(n−1)/2</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Complete Bipartite Graph Kₘ,ₙ</span></div>
+      <p class="meaning">Vertices split into two groups V₁ (size m) and V₂ (size n). EVERY vertex in V₁ is connected to EVERY vertex in V₂ (no edges within a group).</p>
+      <div class="formula-box">|E| = m × n
+deg(v) = n for v ∈ V₁;  deg(v) = m for v ∈ V₂
+Kₘ,ₙ is regular iff m = n  (then it is m-regular)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Types of Graphs</span></div>
+      <div class="formula-box">Simple graph:      no loops, no parallel edges
+Multigraph:        parallel edges allowed
+Pseudograph:       loops and parallel edges allowed
+Digraph:           directed edges (arrows)
+Weighted graph:    edges have weights/costs
+Null graph:        no edges (only isolated vertices)
+Regular graph:     all vertices have same degree</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Walk, Path, Simple Path, Elementary Path</span></div>
+      <p class="meaning">Different levels of restriction on how we travel through a graph. Elementary is most restrictive (no repeated vertices), walk is least restrictive (everything allowed).</p>
+      <div class="formula-box">Walk:           any sequence of vertices connected by edges (can repeat)
+Simple Path:    no repeated EDGES
+Elementary Path: no repeated VERTICES (also called just "path")
+Cycle/Circuit:  starts and ends at same vertex</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Euler Path & Euler Circuit</span></div>
+      <p class="meaning">Euler Path: traverses every EDGE exactly once. Euler Circuit: an Euler path that starts and ends at the same vertex. Based on vertex degrees.</p>
+      <div class="formula-box">Euler Circuit exists iff:
+  • Graph is connected  AND
+  • Every vertex has EVEN degree
+
+Euler Path (not circuit) exists iff:
+  • Graph is connected  AND
+  • Exactly 2 vertices have ODD degree (start and end at those)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Isomorphic Graphs</span></div>
+      <p class="meaning">Two graphs are isomorphic if one can be RELABELLED to look exactly like the other. Same structure, different names. Check: same vertex count, edge count, degree sequence.</p>
+      <div class="formula-box">Necessary conditions (not sufficient) for isomorphism:
+1. Same number of vertices: |V₁| = |V₂|
+2. Same number of edges:    |E₁| = |E₂|
+3. Same degree sequence (sorted list of all degrees)
+4. Same number of cycles of each length</div>
+    </div>
+  </div>
+
+  <div class="section u5">
+    <div class="section-title">▸ Connectivity, Reachability & Matrices</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Strongly / Weakly / Unilaterally Connected</span></div>
+      <p class="meaning">For DIRECTED graphs (digraphs): Strongly = paths in BOTH directions between every pair. Weakly = connected ignoring edge directions. Unilaterally = at least one direction between every pair.</p>
+      <div class="formula-box">Strongly connected:     path u→v  AND  path v→u  for ALL pairs (u,v)
+Unilaterally connected: path u→v  OR   path v→u  for ALL pairs
+Weakly connected:       connected when edge directions are ignored</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Adjacency Matrix</span></div>
+      <p class="meaning">An n×n matrix where A[i][j] = 1 if there's an edge from i to j, else 0. Powers of the matrix count paths of that length.</p>
+      <div class="formula-box">A[i][j] = 1  if edge (i,j) exists, else 0
+Undirected: A is symmetric (A = Aᵀ)
+
+(Aⁿ)[i][j] = number of walks of length n from vertex i to j
+Sum of row i = out-degree of vertex i (in digraph)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Path (Reachability) Matrix & Node Base</span></div>
+      <p class="meaning">Path matrix P[i][j] = 1 if ANY path exists from vertex i to vertex j. Node base = minimal set of vertices from which ALL other vertices are reachable.</p>
+      <div class="formula-box">Path matrix = result of Warshall's algorithm on adjacency matrix
+Reachable set of v = {u : there is a path from v to u}
+Node base = minimal set B such that every vertex is reachable from B</div>
+    </div>
+  </div>
+
+  <div class="section u5">
+    <div class="section-title">▸ Trees</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Tree</span></div>
+      <p class="meaning">A CONNECTED undirected graph with NO CYCLES. It is the minimally connected graph — remove any edge and it disconnects; add any edge and it creates a cycle.</p>
+      <div class="formula-box">Tree with n vertices has exactly n−1 edges
+Equivalent conditions (any one implies tree):
+• Connected + no cycles
+• Connected + n−1 edges
+• No cycles + n−1 edges
+• Unique path between every pair of vertices</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Rooted Tree — Terminology</span></div>
+      <div class="formula-box">Root:     top-most node (no parent)
+Parent:   immediate ancestor of a node
+Children: immediate descendants of a node
+Leaf:     node with no children (terminal node)
+Internal node: node with at least one child
+Level of node: length of path from root to node
+Height of tree: maximum level of any leaf</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">Binary Tree & Full Binary Tree</span></div>
+      <p class="meaning">Binary tree: each node has at most 2 children (left and right). Full (complete) binary tree: every node has EXACTLY 0 or 2 children.</p>
+      <div class="formula-box">Binary tree with n levels: maximum nodes = 2ⁿ − 1
+
+Full binary tree with i internal nodes:
+  Leaves l = i + 1  (leaves = internal nodes + 1)
+  Total nodes = 2i + 1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-def">DEF</span><span class="term">m-ary Tree</span></div>
+      <p class="meaning">Each node has at most m children. For a FULL m-ary tree (every internal node has exactly m children):</p>
+      <div class="formula-box">Full m-ary tree:
+If i = number of internal nodes:
+  l = leaves = i(m−1) + 1
+  n = total nodes = mi + 1 = im + 1
+
+Full ternary tree (m=3) with n levels: max nodes = (3ⁿ−1)/2</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Tree Traversals (Pre-order, In-order, Post-order)</span></div>
+      <p class="meaning">Three systematic methods to visit ALL nodes of a rooted binary tree exactly once, differing only in WHEN the root is visited relative to its subtrees.</p>
+      <div class="formula-box">Pre-order  (Root → Left → Right):  visit root BEFORE subtrees
+  1. Visit root   2. Traverse left subtree   3. Traverse right subtree
+
+In-order   (Left → Root → Right):  visit root BETWEEN subtrees
+  1. Traverse left subtree   2. Visit root   3. Traverse right subtree
+
+Post-order (Left → Right → Root):  visit root AFTER subtrees
+  1. Traverse left subtree   2. Traverse right subtree   3. Visit root</div>
+      <p class="tip">In-order traversal of a Binary Search Tree gives elements in SORTED order!</p>
+    </div>
+  </div>
+
+  <div class="section u5">
+    <div class="section-title">▸ Graph Algorithms</div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">BFS — Breadth-First Search</span></div>
+      <p class="meaning">Explores graph LEVEL BY LEVEL using a QUEUE. Visits all neighbors of a vertex before going deeper. Finds SHORTEST PATH in unweighted graphs.</p>
+      <div class="formula-box">Algorithm:
+1. Start at source vertex s, mark as visited, add to queue
+2. While queue is not empty:
+   a. Dequeue vertex u
+   b. For each unvisited neighbor v of u:
+      - Mark v as visited
+      - Record parent[v] = u, dist[v] = dist[u] + 1
+      - Enqueue v
+Time complexity: O(V + E)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">DFS — Depth-First Search</span></div>
+      <p class="meaning">Explores as DEEP as possible before backtracking, using a STACK (or recursion). Used for cycle detection, topological sort, strongly connected components.</p>
+      <div class="formula-box">Algorithm (recursive):
+DFS(v):
+  Mark v as visited
+  For each unvisited neighbor u of v:
+    DFS(u)
+Time complexity: O(V + E)</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Dijkstra's Algorithm — Shortest Path</span></div>
+      <p class="meaning">Finds the SHORTEST PATH from a source vertex to all others in a WEIGHTED graph with NON-NEGATIVE weights. Greedy approach — always pick closest unvisited vertex.</p>
+      <div class="formula-box">Algorithm:
+1. dist[source] = 0; dist[all others] = ∞; visited = {}
+2. Repeat until all visited:
+   a. Pick unvisited vertex u with minimum dist[u]
+   b. Mark u as visited
+   c. For each neighbor v of u:
+      If dist[u] + weight(u,v) < dist[v]:
+        dist[v] = dist[u] + weight(u,v)  ← RELAX the edge
+Time complexity: O(V²) or O(E log V) with priority queue</div>
+      <p class="tip">Does NOT work for negative weight edges!</p>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Kruskal's Algorithm — Minimum Spanning Tree</span></div>
+      <p class="meaning">Finds the spanning tree connecting all vertices with MINIMUM TOTAL EDGE WEIGHT. Sort edges by weight and greedily add the cheapest edge that doesn't create a cycle.</p>
+      <div class="formula-box">Algorithm:
+1. Sort ALL edges by weight (ascending)
+2. Initialize each vertex as its own component (DSU)
+3. For each edge (u,v) in sorted order:
+   If u and v are in DIFFERENT components:
+     Add edge to MST
+     Merge the two components
+4. Stop when MST has n−1 edges
+
+Result: Minimum Spanning Tree with n−1 edges, minimum total weight</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><span class="tag tag-formula">FORMULA</span><span class="term">Warshall's Algorithm — Path Matrix</span></div>
+      <p class="meaning">Computes the reachability (path) matrix from the adjacency matrix. After running, W[i][j]=1 means vertex j is reachable from vertex i.</p>
+      <div class="formula-box">Input: Adjacency matrix W[n×n] of a digraph
+Algorithm:
+  For k = 1 to n:
+    For i = 1 to n:
+      For j = 1 to n:
+        W[i][j] = W[i][j]  OR  (W[i][k]  AND  W[k][j])
+Output: W = Path (Reachability) Matrix</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+<div class="footer">GTU · Discrete Mathematics · BE Semester IV (Subject Code: 3140708 / BE04000261) · All 5 Units</div>
+
+<script>
+function show(unitId, btn) {
+  document.querySelectorAll('.unit').forEach(u => u.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(unitId).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
